@@ -21,7 +21,7 @@ Import-Module ActiveDirectory
 do
 {
 #JSON CONFIG READ
-$Settingsconclean = Get-Content -Path 'C:\dtiq\settings\DLD-Consulatant-cleanup.json' | ConvertFrom-Json
+$Settingsconclean = Get-Content -Path 'C:\dtiq\settings\DTIQ-Consulatant-cleanup.json' | ConvertFrom-Json
 
 $inactiveDays = $Settingsconclean.inactivedays
 $neverLoggedInDays = $Settingsconclean.inactivedays
@@ -45,6 +45,8 @@ $disableUsers2 | ForEach-Object {
 		Disable-ADAccount $_
 		Write-EventLog -log DTIQ-Remoteman -source DTIQ -EntryType Information -eventID 4002 -Message "Attempted to disable user $_ because user has never logged in is inactive."
 	}
+	Write-EventLog -log DTIQ-Remoteman -source DTIQ -EntryType Information -eventID 4000 -Message "DTIQ-Consultant-Cleanup has completed"
 	Start-Sleep -Seconds 86400
+	
 }
 until ($infinity)
